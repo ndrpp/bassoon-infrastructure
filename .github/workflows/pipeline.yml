@@ -1,0 +1,21 @@
+name: Astro portofolio terraform infrastructure
+run-name: ${{ github.actor }} triggered GH Actions.
+on: [push]
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Use Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.2.0'
+      - name: Init terraform
+        run: |
+          terraform init
+      - name: Check formatting
+        run: |
+          terraform fmt -check
+      - run: echo "status is ${{ job.status }}."
