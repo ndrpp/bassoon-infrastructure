@@ -1,21 +1,17 @@
-resource "aws_cloudfront_origin_access_control" "cf_bucket_oac" {
-  name                              = var.bucket_name
-  description                       = "Setting to allow access to the S3 bucket only from CloudFront"
-  origin_access_control_origin_type = "s3"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
-}
-
 resource "aws_cloudfront_distribution" "website_distribution" {
   origin {
-    domain_name              = aws_s3_bucket.website_origin_bucket.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.cf_bucket_oac.id
-    origin_id                = "S3OriginId"
+    domain_name = aws_s3_bucket_website_configuration.bucket_web_configuration.website_endpoint
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+    origin_id = "S3OriginId"
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  default_root_object = "index.html"
+  enabled         = true
+  is_ipv6_enabled = true
 
   //aliases = [var.custom_domain_name]
 

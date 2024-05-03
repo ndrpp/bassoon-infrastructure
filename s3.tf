@@ -12,15 +12,15 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront" {
     sid = "AllowCloudFrontGetObjectAccess"
 
     principals {
-      type        = "Service"
-      identifiers = ["cloudfront.amazonaws.com"]
+      type        = "*"
+      identifiers = ["*"]
     }
 
-    condition {
-      test     = "StringEquals"
-      variable = "AWS:SourceArn"
-      values   = [aws_cloudfront_distribution.website_distribution.arn]
-    }
+    //condition {
+    //  test     = "StringEquals"
+    //  variable = "AWS:SourceArn"
+    //  values   = [aws_cloudfront_distribution.website_distribution.arn]
+    //}
 
     actions = [
       "s3:GetObject",
@@ -30,4 +30,17 @@ data "aws_iam_policy_document" "allow_access_from_cloudfront" {
       "${aws_s3_bucket.website_origin_bucket.arn}/*",
     ]
   }
+}
+
+resource "aws_s3_bucket_website_configuration" "bucket_web_configuration" {
+  bucket = aws_s3_bucket.website_origin_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  //TODO
+  //error_document {
+  //  key = "error.html"
+  //}
 }
