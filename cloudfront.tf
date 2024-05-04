@@ -8,6 +8,10 @@ resource "aws_cloudfront_distribution" "website_distribution" {
       origin_ssl_protocols   = ["TLSv1.2"]
     }
     origin_id = "S3OriginId"
+    custom_header {
+      name  = "Referer"
+      value = var.referer_header
+    }
   }
 
   enabled         = true
@@ -28,7 +32,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
       }
     }
 
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "https-only"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
