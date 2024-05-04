@@ -14,6 +14,6 @@ variable "referer_header" {
 }
 
 variable "certificate_arn" {
-    type = string
-    description = "ARN of the SSL certificate in ACM (must be in us-east-1 for CloudFront!)"
+  type        = string
+  description = "ARN of the SSL certificate in ACM (must be in us-east-1 for CloudFront!)"
 }
