@@ -8,10 +8,6 @@ on the bucket
 - creates the cloudfront distribution to act as CDN cache for the static files
 hosted in S3
 
-## Next steps
-
-- add a custom domain name to the distribution with an SSL certificate
-
 ## Using this template
 
 Prerequisites:
@@ -21,9 +17,16 @@ Prerequisites:
     - `bucket_name`: must be globally unique
     - `custom_domain_name`: the desired domain name (eg www.example.com)
     - `referer_header`: a random header string to use for restricting access to S3
+    - `certificate_arn`: the ARN of the certificate from ACM, must match the custom
+    domain name and be in <b>us-east-1</b>
 
 Deploy the template with:
 
 ```sh
 terraform apply
 ```
+
+## Future improvements
+
+- fully automate deployments using GH Actions by creating an IAM role for the
+runner to assume (+secret management)

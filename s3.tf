@@ -50,8 +50,7 @@ resource "aws_s3_bucket_website_configuration" "bucket_web_configuration" {
     suffix = "index.html"
   }
 
-  //TODO
-  //error_document {
-  //  key = "error.html"
-  //}
+  error_document {
+    key = "error.html"
+  }
 }

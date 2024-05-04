@@ -12,3 +12,8 @@ variable "referer_header" {
   type        = string
   description = "Referer header used to allow access to S3 only from CloudFront"
 }
+
+variable "certificate_arn" {
+    type = string
+    description = "ARN of the SSL certificate in ACM (must be in us-east-1 for CloudFront!)"
+}
