@@ -17,3 +17,8 @@ variable "certificate_arn" {
   type        = string
   description = "ARN of the SSL certificate in ACM (must be in us-east-1 for CloudFront!)"
 }
+
+variable "r53_zone_id" {
+  type        = string
+  description = "Id of your hosted zone in R53"
+}
