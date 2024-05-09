@@ -37,7 +37,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
     default_ttl            = 3600
     max_ttl                = 86400
 
-    response_headers_policy_id = var.aws_managed_security_policy_id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.security_headers_policy.id
   }
 
   price_class = "PriceClass_All"
@@ -51,9 +51,40 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   }
 
   viewer_certificate {
-    //cloudfront_default_certificate = true
     acm_certificate_arn      = var.certificate_arn
     minimum_protocol_version = "TLSv1.2_2021"
     ssl_support_method       = "sni-only"
+  }
+}
+
+resource "aws_cloudfront_response_headers_policy" "security_headers_policy" {
+  name = "custom-security-headers-policy"
+  security_headers_config {
+    content_type_options {
+      override = true
+    }
+    frame_options {
+      frame_option = "DENY"
+      override     = true
+    }
+    referrer_policy {
+      referrer_policy = "same-origin"
+      override        = true
+    }
+    xss_protection {
+      mode_block = true
+      protection = true
+      override   = true
+    }
+    strict_transport_security {
+      access_control_max_age_sec = "63072000"
+      include_subdomains         = true
+      preload                    = true
+      override                   = true
+    }
+    content_security_policy {
+      content_security_policy = "default-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; connect-src 'self'; img-src 'self'; script-src 'none' 'unsafe-hashes'; style-src 'self' 'unsafe-inline'; require-trusted-types-for 'script'"
+      override                = true
+    }
   }
 }
