@@ -83,7 +83,7 @@ resource "aws_cloudfront_response_headers_policy" "security_headers_policy" {
       override                   = true
     }
     content_security_policy {
-      content_security_policy = "default-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; connect-src 'self'; img-src 'self'; script-src 'none' 'unsafe-hashes'; style-src 'self' 'unsafe-inline'; require-trusted-types-for 'script'"
+      content_security_policy = "default-src 'self'; font-src 'self' https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/fonts; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; connect-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css; require-trusted-types-for 'script'"
       override                = true
     }
   }
