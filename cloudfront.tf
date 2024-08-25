@@ -30,6 +30,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
       cookies {
         forward = "none"
       }
+
     }
 
     viewer_protocol_policy = "redirect-to-https"
@@ -40,8 +41,14 @@ resource "aws_cloudfront_distribution" "website_distribution" {
     response_headers_policy_id = aws_cloudfront_response_headers_policy.security_headers_policy.id
   }
 
-  price_class = "PriceClass_All"
+  custom_error_response {
+      error_caching_min_ttl = 86400
+          error_code = 404
+          response_code = 404
+          response_page_path = "/404.html"
+  }
 
+  price_class = "PriceClass_All"
 
   restrictions {
     geo_restriction {
